@@ -1,0 +1,46 @@
+{
+  "spider": "https://ghp.ci/https://raw.githubusercontent.com/CatVodSpider-GM/Spiders-Lib/main/jar/GM.jar",
+  "sites": [
+    {
+      "key": "template",
+      "name": "模版",
+      "type": 3,
+      "searchable": 1,
+      "changeable": 0,
+      "style": {
+        "type": "rect",
+        "ratio": 0.75
+      },
+      "api": "csp_GM",
+      "ext": {
+        "userScript": "./userScripts/template.user.js",
+        "debug": false,
+        "webViewSettings": {
+          "blockNetworkImage": false,
+          "blockList": [
+            "*.png*",
+            "*.mp3*",
+            "*.css*"
+          ]
+        },
+        "spider": {
+          "homeContent": {
+            "loadUrl": "https://www.template.com/"
+          },
+          "categoryContent": {
+            "loadUrl": "https://www.template.com/${tid}?page=${pg:-1}&filter=${filter:-}&sort=${sort:-}"
+          },
+          "detailContent": {
+            "loadUrl": "https://www.template.com/${id}"
+          },
+          "playerContent": {
+            "loadUrl": "${id}"
+          },
+          "searchContent": {
+            "loadUrl": "https://www.template.com/search?key=${key}&page=${pg:-1}"
+          }
+        }
+      }
+    }
+  ]
+}
