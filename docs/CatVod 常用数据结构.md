@@ -19,7 +19,7 @@ homeContent(boolean filter)
 
 | 参数 | 类型     | 默认值           | 描述 |
 | :-------- | :------- | :------------------------- | --------- |
-| `filter` | `boolean` | true | **未知** |
+| `filter` | `boolean` | true |  |
 
 #### 返回信息
 
@@ -145,8 +145,7 @@ homeContent(boolean filter)
 | »»»`type`       | `string`        | 可选值 `rect`、`oval`、`list`                                |                                                              |              |
 | »»»`ratio`      | `float`         | 宽高比                                                       |                                                              |              |
 | »`pagecount`    | `int`           | 页码总数，用于判断是否还有下一页                             | 其他应用可能还会使用 `limit`、`total`等信息作为分页依据，不确认 | 无           |
-|                 |                 |                                                              |                                                              |              |
-|                 |                 |                                                              |                                                              |              |
+
 
 #### 完整示例
 
@@ -221,6 +220,275 @@ homeContent(boolean filter)
 
 ![](../imgs/0201.jpg)
 
+###  detailContent [视频详情页]
 
+该方法用于获取首页的更新推荐和顶部的分类信息
 
-图片
+```java
+detailContent(List<String> ids)
+```
+#### 调用参数
+
+| 参数 | 类型     | 默认值           | 描述 |
+| :-------- | :------- | :------------------------- | --------- |
+| `ids` | `string` | 无 | 视频ID,结构为数组,但实际使用中没发现入参为多个ID的场景 |
+
+#### 返回信息
+
+| 字段 | 类型     | 描述                | 备注 | UI是否有体现 |
+| :-------- | :------- | :------------------------- | --------- | --------- |
+| »`list` | `array[object]` | 首页更新推荐模块 |  | 有 |
+| »»`vod_id` | `string` | 视频ID |  | 无 |
+| »»`vod_name` | `string` | 视频名称 |  | 有 |
+| »»`vod_pic` | `string` | 视频图片 | 当该字段为空或不存在时，会以`vod_name`首个字符作为图片展示 | 有 |
+| »»`vod_remarks` | `string` | 视频备注 | | 有 |
+| »»`vod_year` | `string` | 视频年份 | | 有 |
+| »»`vod_area` | `string` | 视频地区 | | 有 |
+| »»`vod_actor` | `string` | 视频演员 | | 有 |
+| »»`vod_director` | `string` | 视频导演 | | 有 |
+| »»`vod_content` | `string` | 视频简介 | | 有 |
+| »»`vod_play_from` | `string` | 播放TAB | | 有 |
+| »»`vod_play_url` | `string` | 播放链接 | | 无 |
+| »»`action` | `string` | 未知 | | 无 |
+
+#### 完整示例
+
+```json
+{
+    "list": [
+        {
+            "vod_id": "vod_id",
+            "vod_name": "vod_name",
+            "vod_pic": "vod_pic",
+            "vod_remarks": "vod_remarks",
+            "vod_year": "vod_year",
+            "vod_area": "vod_area",
+            "vod_actor": "vod_actor",
+            "vod_director": "vod_director",
+            "vod_content": "vod_content",
+            "vod_play_from": "vod_play_from",
+            "vod_play_url": "vod_play_url",
+            "type_name": "type_name",
+            "action": "action"
+        }
+    ]
+}
+```
+
+#### 展示效果
+
+![](../imgs/0301.jpg)
+
+![](../imgs/0102.jpg)
+
+### playerContent [主页及分类信息]
+
+该方法用于获取首页的更新推荐和顶部的分类信息
+
+```java
+playerContent(String flag, String id, List<String> vipFlags)
+```
+#### 调用参数
+
+| 参数 | 类型     | 默认值           | 描述 |
+| :-------- | :------- | :------------------------- | --------- |
+| `flag` | `string` | true | **未知** |
+| `id` | `string` |  |  |
+| `vipFlags` | `array` |  |  |
+
+#### 返回信息
+
+| 字段 | 类型     | 描述                | 备注 | UI是否有体现 |
+| :-------- | :------- | :------------------------- | --------- | --------- |
+| »`class` | `array[object]` | 分类 |  | 有 |
+| »»`type_id` | `string` | 分类ID | 该`type_id`与`filters`下的`${type_id}`关联 | 无 |
+| »»`type_name` | `string` | 分类名称 |  | 有 |
+| »`filters` | `object` | 筛选器 |  | 有 |
+| »»`${type_id}` | `array[object]` | 指定分类筛选器 | 该`type_id`与`class`下的`type_id`关联，不存在的项目没有分类筛选器 | 无 |
+| »»»`key` | `string` | 分类筛选器key | 该值在分类筛选时会作为参数传递，同一个key下的选项只能选择一个 | 无 |
+| »»»`name` | `string` | 分类筛选器名称 |  | 无 |
+| »»»`value` | `array[object]` | 分类筛选器选项 |  | 无 |
+| »»»»`n` | `string` | 分类筛选器选项名称 |  | 有 |
+| »»»»`v` | `string` | 分类筛选器选项值 | 该值在分类筛选时会作为参数传递 | 无 |
+| »`list` | `array[object]` | 首页更新推荐模块 |  | 有 |
+| »»`vod_id` | `string` | 视频ID |  | 无 |
+| »»`vod_name` | `string` | 视频名称 |  | 有 |
+| »»`vod_pic` | `string` | 视频图片 | 当该字段为空或不存在时，会以`vod_name`首个字符作为图片展示 | 有 |
+| »»`vod_remarks` | `string` | 视频备注 | | 有 |
+| »»`vod_year` | `string` | 视频年份 | | 有 |
+
+#### 完整示例
+
+```json
+{
+    "class": [
+        {
+            "type_id": "type_id-A",
+            "type_name": "type_name-A"
+        },
+        {
+            "type_id": "type_id-B",
+            "type_name": "type_name_B"
+        }
+    ],
+    "filters": {
+        "type_id-B": [
+            {
+                "key": "key-A",
+                "name": "name-A",
+                "value": [
+                    {
+                        "n": "n-AA",
+                        "v": "v-AA"
+                    },
+                    {
+                        "n": "n-AB",
+                        "v": "v-AB"
+                    }
+                ]
+            },
+            {
+                "key": "key-B",
+                "name": "name-B",
+                "value": [
+                    {
+                        "n": "n-BA",
+                        "v": "v-BA"
+                    },
+                    {
+                        "n": "n-BB",
+                        "v": "v-BB"
+                    }
+                ]
+            }
+        ]
+    },
+    "list": [
+        {
+            "vod_id": "vod_id-A",
+            "vod_name": "vod_name-A",
+            "vod_pic": "vod_pic-A",
+            "vod_remarks": "vod_remarks-A",
+            "vod_year": "vod_year-A"
+        },
+        {
+            "vod_id": "vod_id-B",
+            "vod_name": "vod_name-B",
+            "vod_pic": "vod_pic-B",
+            "vod_remarks": "vod_remarks-B",
+            "vod_year": "vod_year-B"
+        }
+    ]
+}
+```
+
+#### 展示效果
+
+![](../imgs/0101.jpg)
+
+![](../imgs/0102.jpg)
+
+### searchContent [主页及分类信息]
+
+该方法用于获取首页的更新推荐和顶部的分类信息
+
+```java
+searchContent(String key, boolean quick, String pg)
+```
+#### 调用参数
+
+| 参数 | 类型     | 默认值           | 描述 |
+| :-------- | :------- | :------------------------- | --------- |
+| `filter` | `boolean` | true | **未知** |
+
+#### 返回信息
+
+| 字段 | 类型     | 描述                | 备注 | UI是否有体现 |
+| :-------- | :------- | :------------------------- | --------- | --------- |
+| »`class` | `array[object]` | 分类 |  | 有 |
+| »»`type_id` | `string` | 分类ID | 该`type_id`与`filters`下的`${type_id}`关联 | 无 |
+| »»`type_name` | `string` | 分类名称 |  | 有 |
+| »`filters` | `object` | 筛选器 |  | 有 |
+| »»`${type_id}` | `array[object]` | 指定分类筛选器 | 该`type_id`与`class`下的`type_id`关联，不存在的项目没有分类筛选器 | 无 |
+| »»»`key` | `string` | 分类筛选器key | 该值在分类筛选时会作为参数传递，同一个key下的选项只能选择一个 | 无 |
+| »»»`name` | `string` | 分类筛选器名称 |  | 无 |
+| »»»`value` | `array[object]` | 分类筛选器选项 |  | 无 |
+| »»»»`n` | `string` | 分类筛选器选项名称 |  | 有 |
+| »»»»`v` | `string` | 分类筛选器选项值 | 该值在分类筛选时会作为参数传递 | 无 |
+| »`list` | `array[object]` | 首页更新推荐模块 |  | 有 |
+| »»`vod_id` | `string` | 视频ID |  | 无 |
+| »»`vod_name` | `string` | 视频名称 |  | 有 |
+| »»`vod_pic` | `string` | 视频图片 | 当该字段为空或不存在时，会以`vod_name`首个字符作为图片展示 | 有 |
+| »»`vod_remarks` | `string` | 视频备注 | | 有 |
+| »»`vod_year` | `string` | 视频年份 | | 有 |
+
+#### 完整示例
+
+```json
+{
+    "class": [
+        {
+            "type_id": "type_id-A",
+            "type_name": "type_name-A"
+        },
+        {
+            "type_id": "type_id-B",
+            "type_name": "type_name_B"
+        }
+    ],
+    "filters": {
+        "type_id-B": [
+            {
+                "key": "key-A",
+                "name": "name-A",
+                "value": [
+                    {
+                        "n": "n-AA",
+                        "v": "v-AA"
+                    },
+                    {
+                        "n": "n-AB",
+                        "v": "v-AB"
+                    }
+                ]
+            },
+            {
+                "key": "key-B",
+                "name": "name-B",
+                "value": [
+                    {
+                        "n": "n-BA",
+                        "v": "v-BA"
+                    },
+                    {
+                        "n": "n-BB",
+                        "v": "v-BB"
+                    }
+                ]
+            }
+        ]
+    },
+    "list": [
+        {
+            "vod_id": "vod_id-A",
+            "vod_name": "vod_name-A",
+            "vod_pic": "vod_pic-A",
+            "vod_remarks": "vod_remarks-A",
+            "vod_year": "vod_year-A"
+        },
+        {
+            "vod_id": "vod_id-B",
+            "vod_name": "vod_name-B",
+            "vod_pic": "vod_pic-B",
+            "vod_remarks": "vod_remarks-B",
+            "vod_year": "vod_year-B"
+        }
+    ]
+}
+```
+
+#### 展示效果
+
+![](../imgs/0101.jpg)
+
+![](../imgs/0102.jpg)
